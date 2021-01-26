@@ -1,7 +1,39 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import LoginScreen from './app/screens/login-screen';
+import {StyleSheet, View, Text} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import Main from './app/screens/bottomNav/Main';
+import Intro from './app/screens/Intro';
 
-export default function App() {
-  return <LoginScreen />;
-}
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/es/integration/react';
+import store, {persistedStore} from './app/Reducers/store';
+
+const Stack = createStackNavigator();
+const App = () => {
+  // TO CHANGE INTRO TO BOTTOM NAV BAR
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistedStore} loading={null}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Intro"
+              component={Intro}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Main"
+              component={Main}
+              options={{headerShown: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
+  );
+};
+
+const styles = StyleSheet.create({});
+
+export default App;
